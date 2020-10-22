@@ -7,6 +7,9 @@ window.onload = () => {
              .register('./js/sw.js');
   }
 
+  const IP = '192.168.43.208';
+  const PORT = 5000;
+
   class Settings {
     constructor() {
       this.duration = 300;
@@ -15,21 +18,27 @@ window.onload = () => {
 
   const targetEl = document.querySelector('.target');
   const connectionEl = document.querySelector('.connection');
+  const statusEl = document.querySelector('.status');
 
   let settings = new Settings();
   let ws;
 
   function connect()
   {
-    ws = new WebSocket('ws://192.168.43.208:5000');
+    statusEl.textContent = `Connecting to ${IP}:${PORT}`;
+
+    ws = new WebSocket(`ws://${IP}:${PORT}`);
     ws.addEventListener('open', e => {
       connectionEl.classList.remove('invisible');
+      statusEl.textContent = `Connected`;
     });
     ws.addEventListener('close', e => {
       connectionEl.classList.add('invisible');
+      statusEl.textContent = `Connection lost: ${e.reason}`;
     });
-    ws.addEventListener('error', e => {
+    ws.addEventListener('error', /** $type*/e => {
       connectionEl.classList.add('invisible');
+      statusEl.textContent = `Connection error`;
       setTimeout( connect, 3000 );
     });
     ws.addEventListener('message', e => {
