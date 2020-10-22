@@ -25,3 +25,13 @@ html,
 .invisible {
   display: none;
 }
+
+.connection {
+  background-color: green;
+  position: fixed;
+  left: 6px;
+  top: 6px;
+  width: 12px;
+  height: 12px;
+  border-radius: 6px;
+}
