@@ -21,3 +21,7 @@ html,
   height: 10vh;
   border-radius: 5vh;
 }
+
+.invisible {
+  display: none;
+}
