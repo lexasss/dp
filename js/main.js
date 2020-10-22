@@ -2,11 +2,6 @@
 window.onload = () => {
   'use strict';
 
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker
-             .register('./js/sw.js');
-  }
-
   const IP = '192.168.43.208';
   const PORT = 5000;
 
@@ -59,5 +54,13 @@ window.onload = () => {
     targetEl.classList.add('invisible');
   }
 
+  function startServiceWorker() {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker
+              .register('./js/sw.js');
+    }
+  }
+
   connect();
+  startServiceWorker();
 }
