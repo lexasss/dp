@@ -29,7 +29,7 @@ window.onload = () => {
       connectionEl.classList.remove('no');
       connectionEl.classList.add('yes');
       statusEl.textContent = `Connected`;
-      screen.enabled();
+      screen.enable();
     });
     ws.addEventListener('close', e => {
       connectionEl.classList.remove('yes');
