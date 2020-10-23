@@ -2,8 +2,8 @@
 window.onload = () => {
   'use strict';
 
-  const IP = '192.168.43.208';
-  const PORT = 5000;
+  let ip = '192.168.43.208';
+  let port = 5000;
 
   class Settings {
     constructor() {
@@ -13,6 +13,9 @@ window.onload = () => {
 
   const targetEl = document.querySelector('.target');
   const connectionEl = document.querySelector('.connection');
+  const dashboardEl = document.querySelector('.dashboard');
+  const ipEl = /** @type {HTMLInputElement} */document.querySelector('#ip');
+  const portEl = /** @type {HTMLInputElement} */document.querySelector('#port');
   const statusEl = document.querySelector('.status');
 
   let settings = new Settings();
@@ -20,9 +23,9 @@ window.onload = () => {
 
   function connect()
   {
-    statusEl.textContent = `Connecting to ${IP}:${PORT}`;
+    statusEl.textContent = `Connecting to ${ip}:${port}`;
 
-    ws = new WebSocket(`ws://${IP}:${PORT}`);
+    ws = new WebSocket(`ws://${ip}:${port}`);
     ws.addEventListener('open', e => {
       connectionEl.classList.remove('no');
       connectionEl.classList.add('yes');
@@ -64,12 +67,28 @@ window.onload = () => {
     }
   }
 
-  function toggleStatus(/** @type {Event}*/ e) {
-    statusEl.classList.toggle('invisible');
+  function toggleDashboard(/** @type {Event}*/ e) {
+    if (e.target !== ipEl && e.target !== portEl) {
+      dashboardEl.classList.toggle('invisible');
+    }
   }
 
-  document.addEventListener('click', toggleStatus);
+  function setup() {
+    ipEl.value = ip;
+    ipEl.addEventListener('change', e => {
+      ip = ipEl.value;
+    });
 
+    portEl.value = port;
+    portEl.addEventListener('change', e => {
+      port = portEl.value;
+    });
+
+    document.addEventListener('click', toggleDashboard);
+  }
+
+
+  setup();
   connect();
   startServiceWorker();
 }

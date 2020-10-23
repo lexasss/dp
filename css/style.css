@@ -43,11 +43,15 @@ html,
   background-color: green;
 }
 
-.status {
+.dashboard {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: white;
   position: fixed;
   bottom: 6px;
   width: 100%;
   text-align: center;
+}
+
+.address {
+  margin: 12px;
 }
