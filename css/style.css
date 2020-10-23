@@ -26,20 +26,29 @@ html,
   display: none;
 }
 
-.connection {
+.info {
   position: fixed;
-  left: 6px;
   top: 6px;
   width: 12px;
   height: 12px;
   border-radius: 6px;
-}
-
-.no {
+  font-size: 12px;
+  line-height: 0.8em;
+  text-align: center;
+  color: white;
+  box-sizing: border-box;
   background-color: red;
 }
 
-.yes {
+.connection {
+  left: 6px;
+}
+
+.sw {
+  left: 22px;
+}
+
+.active {
   background-color: green;
 }
 

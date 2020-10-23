@@ -11,6 +11,7 @@ window.onload = () => {
 
   const targetEl = document.querySelector('.target');
   const connectionEl = document.querySelector('.connection');
+  const swEl = document.querySelector('.sw');
   const dashboardEl = document.querySelector('.dashboard');
   const ipEl = /** @type {HTMLInputElement} */document.querySelector('#ip');
   const portEl = /** @type {HTMLInputElement} */document.querySelector('#port');
@@ -26,20 +27,17 @@ window.onload = () => {
 
     ws = new WebSocket(`ws://${settings.ip}:${settings.port}`);
     ws.addEventListener('open', e => {
-      connectionEl.classList.remove('no');
-      connectionEl.classList.add('yes');
+      connectionEl.classList.add('active');
       statusEl.textContent = `Connected`;
       screen.enable();
     });
     ws.addEventListener('close', e => {
-      connectionEl.classList.remove('yes');
-      connectionEl.classList.add('no');
+      connectionEl.classList.remove('active');
       statusEl.textContent = `Connection lost: ${e.reason}`;
       screen.disable();
     });
     ws.addEventListener('error', e => {
-      connectionEl.classList.remove('yes');
-      connectionEl.classList.add('no');
+      connectionEl.classList.remove('active');
       statusEl.textContent = `Connection error`;
       setTimeout( connect, 3000 );
     });
@@ -64,7 +62,14 @@ window.onload = () => {
   function startServiceWorker() {
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker
-              .register('./js/sw.js');
+        .register('./js/sw.js')
+        .then(reg => {
+          console.log(`Service worker: ${reg.scope}`);
+          swEl.classList.add('active');
+        })
+        .catch(ex => {
+          console.error(`Service worker: ${ex?.toString()}`);
+        });
     }
   }
 
