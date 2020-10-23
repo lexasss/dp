@@ -12,6 +12,7 @@ window.onload = () => {
   const targetEl = document.querySelector('.target');
   const connectionEl = document.querySelector('.connection');
   const swEl = document.querySelector('.sw');
+  const awakerEl = document.querySelector('.awaker');
   const dashboardEl = document.querySelector('.dashboard');
   const ipEl = /** @type {HTMLInputElement} */document.querySelector('#ip');
   const portEl = /** @type {HTMLInputElement} */document.querySelector('#port');
@@ -73,12 +74,6 @@ window.onload = () => {
     }
   }
 
-  function toggleDashboard(/** @type {Event}*/ e) {
-    if (e.target !== ipEl && e.target !== portEl) {
-      dashboardEl.classList.toggle('invisible');
-    }
-  }
-
   function setup() {
     const loadedSettings = localStorage.getItem('dp-settings');
     if (loadedSettings) {
@@ -97,7 +92,18 @@ window.onload = () => {
       localStorage.setItem('dp-settings', JSON.stringify(settings));
     });
 
-    document.addEventListener('click', toggleDashboard);
+    screenAwaker.noSleepVideo.addEventListener('play', e => {
+      awakerEl.classList.add('active');
+    });
+    screenAwaker.noSleepVideo.addEventListener('pause', e => {
+      awakerEl.classList.remove('active');
+    });
+
+    document.addEventListener('click', e => {
+      if (e.target !== ipEl && e.target !== portEl) {
+        dashboardEl.classList.toggle('invisible');
+      }
+    });
   }
 
 

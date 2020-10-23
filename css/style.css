@@ -48,6 +48,10 @@ html,
   left: 22px;
 }
 
+.awaker {
+  left: 38px;
+}
+
 .active {
   background-color: green;
 }
@@ -63,4 +67,9 @@ html,
 
 .address {
   margin: 12px;
+}
+
+video {
+  position: fixed;
+  left: -8px;
 }
