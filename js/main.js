@@ -1,13 +1,11 @@
-
 window.onload = () => {
   'use strict';
-
-  let ip = '192.168.43.208';
-  let port = 5000;
 
   class Settings {
     constructor() {
       this.duration = 300;
+      this.ip = '192.168.43.208';
+      this.port = 5000;
     }
   }
 
@@ -20,21 +18,24 @@ window.onload = () => {
 
   let settings = new Settings();
   let ws;
+  let screen;
 
   function connect()
   {
-    statusEl.textContent = `Connecting to ${ip}:${port}`;
+    statusEl.textContent = `Connecting to ${settings.ip}:${settings.port}`;
 
-    ws = new WebSocket(`ws://${ip}:${port}`);
+    ws = new WebSocket(`ws://${settings.ip}:${settings.port}`);
     ws.addEventListener('open', e => {
       connectionEl.classList.remove('no');
       connectionEl.classList.add('yes');
       statusEl.textContent = `Connected`;
+      screen.enabled();
     });
     ws.addEventListener('close', e => {
       connectionEl.classList.remove('yes');
       connectionEl.classList.add('no');
       statusEl.textContent = `Connection lost: ${e.reason}`;
+      screen.disable();
     });
     ws.addEventListener('error', e => {
       connectionEl.classList.remove('yes');
@@ -74,17 +75,26 @@ window.onload = () => {
   }
 
   function setup() {
-    ipEl.value = ip;
+    const loadedSettings = localStorage.getItem('dp-settings');
+    if (loadedSettings) {
+      settings = { ...settings, ...JSON.parse(loadedSettings) }
+    }
+
+    ipEl.value = settings.ip;
     ipEl.addEventListener('change', e => {
-      ip = ipEl.value;
+      settings.ip = ipEl.value;
+      localStorage.setItem('dp-settings', JSON.stringify(settings));
     });
 
-    portEl.value = port;
+    portEl.value = settings.port;
     portEl.addEventListener('change', e => {
-      port = portEl.value;
+      settings.port = portEl.value;
+      localStorage.setItem('dp-settings', JSON.stringify(settings));
     });
 
     document.addEventListener('click', toggleDashboard);
+
+    screen = new NoSleep();
   }
 
 
