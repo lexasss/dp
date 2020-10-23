@@ -24,15 +24,18 @@ window.onload = () => {
 
     ws = new WebSocket(`ws://${IP}:${PORT}`);
     ws.addEventListener('open', e => {
-      connectionEl.classList.remove('invisible');
+      connectionEl.classList.remove('no');
+      connectionEl.classList.add('yes');
       statusEl.textContent = `Connected`;
     });
     ws.addEventListener('close', e => {
-      connectionEl.classList.add('invisible');
+      connectionEl.classList.remove('yes');
+      connectionEl.classList.add('no');
       statusEl.textContent = `Connection lost: ${e.reason}`;
     });
-    ws.addEventListener('error', /** $type*/e => {
-      connectionEl.classList.add('invisible');
+    ws.addEventListener('error', e => {
+      connectionEl.classList.remove('yes');
+      connectionEl.classList.add('no');
       statusEl.textContent = `Connection error`;
       setTimeout( connect, 3000 );
     });
@@ -60,6 +63,12 @@ window.onload = () => {
               .register('./js/sw.js');
     }
   }
+
+  function toggleStatus(/** @type {Event}*/ e) {
+    statusEl.classList.toggle('invisible');
+  }
+
+  document.addEventListener('click', toggleStatus);
 
   connect();
   startServiceWorker();
