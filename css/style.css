@@ -36,11 +36,11 @@ html,
 }
 
 .no {
-  background-color: green;
+  background-color: red;
 }
 
 .yes {
-  background-color: red;
+  background-color: green;
 }
 
 .status {
