@@ -12,7 +12,7 @@ window.onload = () => {
   const targetEl = document.querySelector('.target');
   const connectionEl = document.querySelector('.connection');
   const swEl = document.querySelector('.sw');
-  const awakerEl = document.querySelector('.awaker');
+  // const awakerEl = document.querySelector('.awaker');
   const dashboardEl = document.querySelector('.dashboard');
   const ipEl = /** @type {HTMLInputElement} */document.querySelector('#ip');
   const portEl = /** @type {HTMLInputElement} */document.querySelector('#port');
@@ -20,7 +20,7 @@ window.onload = () => {
 
   let settings = new Settings();
   let ws;
-  let screenAwaker = new ScreenAwaker();
+  // const screenAwaker = new ScreenAwaker();
 
   function connect()
   {
@@ -30,12 +30,12 @@ window.onload = () => {
     ws.addEventListener('open', e => {
       connectionEl.classList.add('active');
       statusEl.textContent = `Connected`;
-      screenAwaker.enable();
+      // screenAwaker.enable();
     });
     ws.addEventListener('close', e => {
       connectionEl.classList.remove('active');
       statusEl.textContent = `Connection lost: ${e.reason}`;
-      screenAwaker.disable();
+      // screenAwaker.disable();
     });
     ws.addEventListener('error', e => {
       connectionEl.classList.remove('active');
@@ -92,12 +92,14 @@ window.onload = () => {
       localStorage.setItem('dp-settings', JSON.stringify(settings));
     });
 
+    /*
     screenAwaker.noSleepVideo.addEventListener('play', e => {
       awakerEl.classList.add('active');
     });
     screenAwaker.noSleepVideo.addEventListener('pause', e => {
       awakerEl.classList.remove('active');
     });
+    */
 
     document.addEventListener('click', e => {
       if (e.target !== ipEl && e.target !== portEl) {
