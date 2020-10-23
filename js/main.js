@@ -19,7 +19,7 @@ window.onload = () => {
 
   let settings = new Settings();
   let ws;
-  let screen;
+  let screenAwaker = new ScreenAwaker();
 
   function connect()
   {
@@ -29,12 +29,12 @@ window.onload = () => {
     ws.addEventListener('open', e => {
       connectionEl.classList.add('active');
       statusEl.textContent = `Connected`;
-      screen.enable();
+      screenAwaker.enable();
     });
     ws.addEventListener('close', e => {
       connectionEl.classList.remove('active');
       statusEl.textContent = `Connection lost: ${e.reason}`;
-      screen.disable();
+      screenAwaker.disable();
     });
     ws.addEventListener('error', e => {
       connectionEl.classList.remove('active');
@@ -98,8 +98,6 @@ window.onload = () => {
     });
 
     document.addEventListener('click', toggleDashboard);
-
-    screen = new NoSleep();
   }
 
 
